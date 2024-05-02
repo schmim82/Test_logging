@@ -3,15 +3,14 @@ import pandas as pd
 from github_contents import GithubContents
 
 
-DATA_FILE = "FreshAlert-Registration.csv"
+DATA_FILE = "Flavorsavor-Registration.csv"
 DATA_COLUMNS = ["Vorname", "Nachname", "E-Mail", "Passwort", "Passwort wiederholen"]
 
 
 
 # Set page configuration
 st.set_page_config(
-    page_title="FreshAlert",
-    page_icon="🗄️",
+    page_title="Flavorsavor",
     layout="wide",
     initial_sidebar_state="expanded"
 )
