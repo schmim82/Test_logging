@@ -2,11 +2,11 @@ import streamlit as st
 import pandas as pd
 from github_contents import GithubContents
 
-st.set_page_config(page_title="Test")
+st.set_page_config(page_title="FlavorSavor")
 
 # Set constants
-DATA_FILE = "other_data.csv"  # Dateiname für die andere Daten-CSV-Datei
-DATA_COLUMNS = ['Column1', 'Column2', 'Column3']  # Spaltennamen für deine anderen Daten
+DATA_FILE = "MyLoginTable.csv"
+DATA_COLUMNS = ['username', 'name', 'password']
 
 def init_github():
     """Initialisiere das GithubContents-Objekt."""
@@ -17,31 +17,19 @@ def init_github():
             st.secrets["github"]["token"])
         print("GitHub initialisiert")
 
-def init_data():
-    """Initialisiere oder lade das DataFrame mit den anderen Daten."""
-    if 'other_data_df' not in st.session_state:
+def init_credentials():
+    """Initialisiere oder lade das DataFrame."""
+    if 'df_users' not in st.session_state:
         if st.session_state.github.file_exists(DATA_FILE):
-            st.session_state.other_data_df = st.session_state.github.read_df(DATA_FILE)
+            st.session_state.df_users = st.session_state.github.read_df(DATA_FILE)
         else:
-            st.session_state.other_data_df = pd.DataFrame(columns=DATA_COLUMNS)
+            st.session_state.df_users = pd.DataFrame(columns=DATA_COLUMNS)
 
-def main():
-    init_github()
-    init_data()
-
-    if 'authentication' not in st.session_state:
-        st.session_state['authentication'] = False
-
-    if not st.session_state['authentication']:
-        options = st.sidebar.selectbox("Select a page", ["Login", "Register"])
-        if options == "Login":
-            login_page()
-        elif options == "Register":
-            register_page()
-
-    else:
-        # Hier kannst du Code hinzufügen, der nach dem erfolgreichen Login ausgeführt wird
-        st.markdown("Erfolgreich authentifiziert")
+def save_to_csv(dataframe):
+    """Speichere das DataFrame in einer CSV-Datei."""
+    st.session_state.github.write_df(DATA_FILE, dataframe, "updated CSV")
 
 if __name__ == "__main__":
-    main()
+    init_github() # Initialisiere das GithubContents-Objekt
+    init_credentials() # Lade die Anmeldeinformationen aus dem GitHub-Datenrepository
+    save_to_csv(st.session_state.df_users) # Speichere das DataFrame in der CSV-Datei
