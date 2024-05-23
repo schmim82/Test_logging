@@ -7,7 +7,7 @@ st.sidebar.title("test")
 
 
 
-st.sidebar.radio("test", liste)
+
 button = st.sidebar.button("drücken")
 
 
@@ -17,3 +17,4 @@ if button:
 else:
   liste = ["1", "2"]
   
+st.sidebar.radio("test", liste)
