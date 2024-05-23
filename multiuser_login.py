@@ -54,7 +54,7 @@ def show_dataframe():
 
 
 
-new_data = {'Name': ['test'], 'Rezept': ['Neues Rezept'], 'Anzahl': [20]}
+new_data = {'name': ['test'], 'rezept': ['Neues Rezept'], 'anzahl': [20]}
 new_data_df = pd.DataFrame(new_data)
 
 daten_hochladen(new_data_df)
