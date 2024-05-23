@@ -10,7 +10,7 @@ if 'selected_option' not in st.session_state:
 # Funktion zum Aktualisieren der Selectbox
 def set_selectbox_to_three():
     st.session_state.selected_option = '3'
-    st.experimental_rerun()
+    st.rerun()
 
 # Erstelle die Selectbox in der Sidebar mit dem initialen Wert aus st.session_state
 selected = st.sidebar.selectbox("Wähle eine Option", options, index=options.index(st.session_state.selected_option), key='selectbox')
