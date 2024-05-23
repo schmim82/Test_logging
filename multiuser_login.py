@@ -34,6 +34,13 @@ def save_to_csv_rez(dataframe):
 def daten_hochladen(new_data_df):
     init_github_rez() # Initialisiere das GithubContents-Objekt
     init_rez() # Lade die informationen aus dem GitHub-Datenrepository
+# DataFrame aktualisieren
+    st.session_state.df_liste = pd.concat([st.session_state.df_liste, new_data_df], ignore_index=True)
+
+# DataFrame in CSV-Datei speichern
+    save_to_csv_rez(st.session_state.df_liste)
+
+
 
 def show_dataframe():
     dataframe_eink_liste = st.session_state.df_liste
@@ -42,11 +49,7 @@ def show_dataframe():
 
     
 
-# DataFrame aktualisieren
-    st.session_state.df_liste = pd.concat([st.session_state.df_liste, new_data_df], ignore_index=True)
 
-# DataFrame in CSV-Datei speichern
-    save_to_csv_rez(st.session_state.df_liste)
 
 
 
