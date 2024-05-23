@@ -19,11 +19,11 @@ def init_github():
 
 def init_credentials():
     """Initialisiere oder lade das DataFrame."""
-    if 'df_users' not in st.session_state:
+    if 'df_liste' not in st.session_state:
         if st.session_state.github.file_exists(DATA_FILE):
-            st.session_state.df_users = st.session_state.github.read_df(DATA_FILE)
+            st.session_state.df_liste = st.session_state.github.read_df(DATA_FILE)
         else:
-            st.session_state.df_users = pd.DataFrame(columns=DATA_COLUMNS)
+            st.session_state.df_liste = pd.DataFrame(columns=DATA_COLUMNS)
 
 def save_to_csv(dataframe):
     """Speichere das DataFrame in einer CSV-Datei."""
