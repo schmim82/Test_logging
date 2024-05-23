@@ -24,6 +24,7 @@ def init_rez():
             st.session_state.df_liste = st.session_state.github.read_df(DATA_FILE)
         else:
             st.session_state.df_liste = pd.DataFrame(columns=DATA_COLUMNS)
+    return df_liste
 
 def save_to_csv_rez(dataframe):
     """Speichere das DataFrame in einer CSV-Datei."""
@@ -45,9 +46,10 @@ def daten_hochladen(new_data_df):
 
 
 
-new_data = {'Name': ['Neue Zutat'], 'Rezept': ['Neues Rezept'], 'Anzahl': [20]}
+new_data = {'Name': ['test'], 'Rezept': ['Neues Rezept'], 'Anzahl': [20]}
 new_data_df = pd.DataFrame(new_data)
 
 daten_hochladen(new_data_df)
-
+dataframe = init_rez()
+st.markdown(dataframe)
 
