@@ -43,7 +43,8 @@ def daten_hochladen(new_data_df):
 
 
 def show_dataframe():
-    dataframe_eink_liste = st.session_state.df_liste
+    dataframe = st.session_state.df_liste
+    dataframe_eink_liste = dataframe.iloc[:, 3:]
     return dataframe_eink_liste
     
 
