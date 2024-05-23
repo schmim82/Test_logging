@@ -8,7 +8,7 @@ st.set_page_config(page_title="test")
 DATA_FILE = "test.csv"
 DATA_COLUMNS = ['Name', 'Rezept', 'Anzahl']
 
-def init_github():
+def init_github_rez():
     """Initialisiere das GithubContents-Objekt."""
     if 'github' not in st.session_state:
         st.session_state.github = GithubContents(
@@ -17,7 +17,7 @@ def init_github():
             st.secrets["github"]["token"])
         print("GitHub initialisiert")
 
-def init_credentials():
+def init_rez():
     """Initialisiere oder lade das DataFrame."""
     if 'df_liste' not in st.session_state:
         if st.session_state.github.file_exists(DATA_FILE):
@@ -25,14 +25,14 @@ def init_credentials():
         else:
             st.session_state.df_liste = pd.DataFrame(columns=DATA_COLUMNS)
 
-def save_to_csv(dataframe):
+def save_to_csv_rez(dataframe):
     """Speichere das DataFrame in einer CSV-Datei."""
     st.session_state.github.write_df(DATA_FILE, dataframe, "updated CSV")
 
 
 def daten_hochladen(new_data_df):
-    init_github() # Initialisiere das GithubContents-Objekt
-    init_credentials() # Lade die Anmeldeinformationen aus dem GitHub-Datenrepository
+    init_github_rez() # Initialisiere das GithubContents-Objekt
+    init_rez() # Lade die informationen aus dem GitHub-Datenrepository
     
 
     
@@ -41,7 +41,7 @@ def daten_hochladen(new_data_df):
     st.session_state.df_liste = pd.concat([st.session_state.df_liste, new_data_df], ignore_index=True)
 
 # DataFrame in CSV-Datei speichern
-    save_to_csv(st.session_state.df_liste)
+    save_to_csv_rez(st.session_state.df_liste)
 
 
 
