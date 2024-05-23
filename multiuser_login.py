@@ -36,7 +36,8 @@ def daten_hochladen(new_data_df):
     init_rez() # Lade die informationen aus dem GitHub-Datenrepository
 
 def show_dataframe():
-    st.dataframe(st.session_state.df_liste)
+    dataframe_eink_liste = st.session_state.df_liste
+    return dataframe_eink_liste
     
 
     
@@ -53,6 +54,6 @@ new_data = {'Name': ['test'], 'Rezept': ['Neues Rezept'], 'Anzahl': [20]}
 new_data_df = pd.DataFrame(new_data)
 
 daten_hochladen(new_data_df)
-dataframe = init_rez()
-show_dataframe()
+dataframe = show_dataframe()
+st.dataframe(dataframe)
 
