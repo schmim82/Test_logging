@@ -5,8 +5,8 @@ from github_contents import GithubContents
 st.set_page_config(page_title="FlavorSavor")
 
 # Set constants
-DATA_FILE = "MyLoginTable.csv"
-DATA_COLUMNS = ['username', 'name', 'password']
+DATA_FILE = "test.csv"
+DATA_COLUMNS = ['Name', 'Rezept', 'Anzahl']
 
 def init_github():
     """Initialisiere das GithubContents-Objekt."""
@@ -29,7 +29,6 @@ def save_to_csv(dataframe):
     """Speichere das DataFrame in einer CSV-Datei."""
     st.session_state.github.write_df(DATA_FILE, dataframe, "updated CSV")
 
-if __name__ == "__main__":
-    init_github() # Initialisiere das GithubContents-Objekt
-    init_credentials() # Lade die Anmeldeinformationen aus dem GitHub-Datenrepository
-    save_to_csv(st.session_state.df_users) # Speichere das DataFrame in der CSV-Datei
+init_github() # Initialisiere das GithubContents-Objekt
+init_credentials() # Lade die Anmeldeinformationen aus dem GitHub-Datenrepository
+save_to_csv(st.session_state.df_users) # Speichere das DataFrame in der CSV-Datei
