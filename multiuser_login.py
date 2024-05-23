@@ -29,15 +29,25 @@ def save_to_csv(dataframe):
     """Speichere das DataFrame in einer CSV-Datei."""
     st.session_state.github.write_df(DATA_FILE, dataframe, "updated CSV")
 
-init_github() # Initialisiere das GithubContents-Objekt
-init_credentials() # Lade die Anmeldeinformationen aus dem GitHub-Datenrepository
-save_to_csv(st.session_state.df_users) # Speichere das DataFrame in der CSV-Datei
 
-new_data = {'Name': ['Neue Zutat'], 'Rezept': ['Neues Rezept'], 'Anzahl': [10]}
-new_data_df = pd.DataFrame(new_data)
+def daten_hochladen(new_data_df)
+    init_github() # Initialisiere das GithubContents-Objekt
+    init_credentials() # Lade die Anmeldeinformationen aus dem GitHub-Datenrepository
+    
+
+    
 
 # DataFrame aktualisieren
-st.session_state.df_users = pd.concat([st.session_state.df_users, new_data_df], ignore_index=True)
+    st.session_state.df_users = pd.concat([st.session_state.df_users, new_data_df], ignore_index=True)
 
 # DataFrame in CSV-Datei speichern
-save_to_csv(st.session_state.df_users)
+    save_to_csv(st.session_state.df_users)
+
+
+
+new_data = {'Name': ['Neue Zutat'], 'Rezept': ['Neues Rezept'], 'Anzahl': [20]}
+new_data_df = pd.DataFrame(new_data)
+
+daten_hochladen(new_data_df)
+
+
