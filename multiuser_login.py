@@ -38,10 +38,10 @@ def daten_hochladen(new_data_df):
     
 
 # DataFrame aktualisieren
-    st.session_state.df_users = pd.concat([st.session_state.df_users, new_data_df], ignore_index=True)
+    st.session_state.df_liste = pd.concat([st.session_state.df_liste, new_data_df], ignore_index=True)
 
 # DataFrame in CSV-Datei speichern
-    save_to_csv(st.session_state.df_users)
+    save_to_csv(st.session_state.df_liste)
 
 
 
