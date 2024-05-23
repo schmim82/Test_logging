@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from github_contents import GithubContents
 
-st.set_page_config(page_title="FlavorSavor")
+st.set_page_config(page_title="test")
 
 # Set constants
 DATA_FILE = "test.csv"
