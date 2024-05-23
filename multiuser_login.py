@@ -24,6 +24,7 @@ def init_rez():
             st.session_state.df_liste = st.session_state.github.read_df(DATA_FILE)
         else:
             st.session_state.df_liste = pd.DataFrame(columns=DATA_COLUMNS)
+    df_liste = pd.Dataframe(columns=DATA_COLUMNS)
     return df_liste
 
 def save_to_csv_rez(dataframe):
