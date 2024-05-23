@@ -30,7 +30,7 @@ def save_to_csv(dataframe):
     st.session_state.github.write_df(DATA_FILE, dataframe, "updated CSV")
 
 
-def daten_hochladen(new_data_df)
+def daten_hochladen(new_data_df):
     init_github() # Initialisiere das GithubContents-Objekt
     init_credentials() # Lade die Anmeldeinformationen aus dem GitHub-Datenrepository
     
