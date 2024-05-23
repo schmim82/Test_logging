@@ -48,7 +48,25 @@ def show_dataframe():
     return dataframe_eink_liste
     
 
-    
+    st.markdown("""
+    <style>
+        .button-container {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# Erstelle einen Container für den Button
+button_container = st.container()
+
+# Füge den Button zum Container hinzu
+with button_container:
+    st.button("Button in oberer rechter Ecke")
+
+# Füge Platzhalterinhalt hinzu, um den Abstand für den Button zu schaffen
+st.text("Hauptinhalt der App")
 
 
 
@@ -57,7 +75,5 @@ def show_dataframe():
 new_data = {'name': ['test'], 'rezept': ['Neues Rezept'], 'anzahl': [20]}
 new_data_df = pd.DataFrame(new_data)
 
-daten_hochladen(new_data_df)
-dataframe = show_dataframe()
-st.dataframe(dataframe)
+
 
