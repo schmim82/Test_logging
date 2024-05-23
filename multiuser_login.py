@@ -67,4 +67,3 @@ st.title("Daten in bestehende CSV-Datei hochladen")
 if st.button('Daten in CSV-Datei speichern'):
     init_github()
     csv_data = create_csv()
-    upload_to_github(csv_data)
