@@ -12,23 +12,32 @@ class GithubContents:
     def get_file_content(self, path):
         url = f"https://api.github.com/repos/{self.owner}/{self.repo}/contents/{path}"
         response = requests.get(url, headers={'Authorization': f'token {self.token}'})
+        st.write(f"GET request to {url} returned status {response.status_code}")
         if response.status_code == 200:
             file_content = response.json()
             decoded_content = b64decode(file_content['content']).decode('utf-8')
             return decoded_content, file_content['sha']
+        elif response.status_code == 404:
+            # Datei existiert noch nicht
+            return None, None
         else:
+            st.error(f"Fehler beim Abrufen der bestehenden CSV-Datei: {response.status_code}")
+            st.write(response.json())
             return None, None
 
-    def update_file_content(self, path, content, sha, message="Update file"):
+    def update_file_content(self, path, content, sha=None, message="Update file"):
         url = f"https://api.github.com/repos/{self.owner}/{self.repo}/contents/{path}"
         encoded_content = b64encode(content.encode()).decode()
         payload = {
             "message": message,
             "content": encoded_content,
-            "sha": sha,
             "branch": "main"
         }
+        if sha:
+            payload["sha"] = sha
         response = requests.put(url, json=payload, headers={'Authorization': f'token {self.token}'})
+        st.write(f"PUT request to {url} with payload {payload} returned status {response.status_code}")
+        st.write(response.json())
         return response.status_code in [200, 201]
 
 def init_github():
@@ -55,7 +64,7 @@ def upload_to_github(content):
         success = github.update_file_content(path, updated_content, sha)
     else:
         updated_content = content
-        success = github.update_file_content(path, updated_content, sha)
+        success = github.update_file_content(path, updated_content)
 
     if success:
         st.success("CSV-Datei wurde erfolgreich zu GitHub hochgeladen!")
@@ -67,3 +76,4 @@ st.title("Daten in bestehende CSV-Datei hochladen")
 if st.button('Daten in CSV-Datei speichern'):
     init_github()
     csv_data = create_csv()
+    upload_to_github(csv_data)
