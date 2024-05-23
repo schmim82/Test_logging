@@ -5,6 +5,15 @@ st.title("test")
 
 st.sidebar.title("test")
 
-liste = ["1", "2"]
+
 
 st.sidebar.radio("test", liste)
+button = st.sidebar.button("drücken")
+
+
+if button:
+  liste = ["2"]
+
+else:
+  liste = ["1", "2"]
+  
