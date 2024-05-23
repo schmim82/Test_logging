@@ -1,44 +1,81 @@
 import streamlit as st
 import pandas as pd
-import requests
-from base64 import b64encode, b64decode
+import binascii
+import bcrypt
+from github_contents import GithubContents
 
-class GithubContents:
-    def __init__(self, owner, repo, token):
-        self.owner = owner
-        self.repo = repo
-        self.token = token
+from daten_code import Zutaten_daten as zd
+from funktionen_code import Funktions_ablage as fa
 
-    def get_file_content(self, path):
-        url = f"https://api.github.com/repos/{self.owner}/{self.repo}/contents/{path}"
-        response = requests.get(url, headers={'Authorization': f'token {self.token}'})
-        st.write(f"GET request to {url} returned status {response.status_code}")
-        if response.status_code == 200:
-            file_content = response.json()
-            decoded_content = b64decode(file_content['content']).decode('utf-8')
-            return decoded_content, file_content['sha']
-        elif response.status_code == 404:
-            # Datei existiert noch nicht
-            return None, None
+from seiten import seite_1 as s_1
+from seiten import seite_2 as s_2
+
+
+st.set_page_config(page_title="FlavorSavor")
+
+
+
+
+# Set constants
+DATA_FILE = "MyLoginTable.csv"
+DATA_COLUMNS = ['username', 'name', 'password']
+
+def login_page():
+    """ Login an existing user. """
+    st.title("Login")
+    with st.form(key='login_form'):
+        st.session_state['username'] = st.text_input("Username")
+        password = st.text_input("Password", type="password")
+        if st.form_submit_button("Login"):
+            authenticate(st.session_state.username, password)
+
+def register_page():
+    """ Register a new user. """
+    st.title("Register")
+    with st.form(key='register_form'):
+        new_username = st.text_input("New Username")
+        new_name = st.text_input("Name")
+        new_password = st.text_input("New Password", type="password")
+        if st.form_submit_button("Register"):
+            hashed_password = bcrypt.hashpw(new_password.encode('utf8'), bcrypt.gensalt()) # Hash the password
+            hashed_password_hex = binascii.hexlify(hashed_password).decode() # Convert hash to hexadecimal string
+            
+            # Check if the username already exists
+            if new_username in st.session_state.df_users['username'].values:
+                st.error("Username already exists. Please choose a different one.")
+                return
+            else:
+                new_user = pd.DataFrame([[new_username, new_name, hashed_password_hex]], columns=DATA_COLUMNS)
+                st.session_state.df_users = pd.concat([st.session_state.df_users, new_user], ignore_index=True)
+                
+                # Writes the updated dataframe to GitHub data repository
+                st.session_state.github.write_df(DATA_FILE, st.session_state.df_users, "added new user")
+                st.success("Registration successful! You can now log in.")
+
+def authenticate(username, password):
+    """ 
+    Initialize the authentication status.
+
+    Parameters:
+    username (str): The username to authenticate.
+    password (str): The password to authenticate.    
+    """
+    login_df = st.session_state.df_users
+    login_df['username'] = login_df['username'].astype(str)
+
+    if username in login_df['username'].values:
+        stored_hashed_password = login_df.loc[login_df['username'] == username, 'password'].values[0]
+        stored_hashed_password_bytes = binascii.unhexlify(stored_hashed_password) # convert hex to bytes
+        
+        # Check the input password
+        if bcrypt.checkpw(password.encode('utf8'), stored_hashed_password_bytes): 
+            st.session_state['authentication'] = True
+            st.success('Login successful')
+            st.rerun()
         else:
-            st.error(f"Fehler beim Abrufen der bestehenden CSV-Datei: {response.status_code}")
-            st.write(response.json())
-            return None, None
-
-    def update_file_content(self, path, content, sha=None, message="Update file"):
-        url = f"https://api.github.com/repos/{self.owner}/{self.repo}/contents/{path}"
-        encoded_content = b64encode(content.encode()).decode()
-        payload = {
-            "message": message,
-            "content": encoded_content,
-            "branch": "main"
-        }
-        if sha:
-            payload["sha"] = sha
-        response = requests.put(url, json=payload, headers={'Authorization': f'token {self.token}'})
-        st.write(f"PUT request to {url} with payload {payload} returned status {response.status_code}")
-        st.write(response.json())
-        return response.status_code in [200, 201]
+            st.error('Incorrect password')
+    else:
+        st.error('Username not found')
 
 def init_github():
     """Initialize the GithubContents object."""
@@ -47,33 +84,59 @@ def init_github():
             st.secrets["github"]["owner"],
             st.secrets["github"]["repo"],
             st.secrets["github"]["token"])
-        st.success("GitHub initialized")
+        print("github initialized")
+    
+def init_credentials():
+    """Initialize or load the dataframe."""
+    if 'df_users' in st.session_state:
+        pass
 
-def create_csv():
-    # Beispiel-Datenframe erstellen
-    data = {'Name': ['Alice', 'Bob', 'Charlie'], 'Age': [25, 30, 35]}
-    df = pd.DataFrame(data)
-    return df.to_csv(index=False)
-
-def upload_to_github(content):
-    path = st.secrets["github"]["path"]
-    github = st.session_state.github
-    existing_content, sha = github.get_file_content(path)
-    if existing_content is not None:
-        updated_content = existing_content + '\n' + content
-        success = github.update_file_content(path, updated_content, sha)
+    if st.session_state.github.file_exists(DATA_FILE):
+        st.session_state.df_users = st.session_state.github.read_df(DATA_FILE)
     else:
-        updated_content = content
-        success = github.update_file_content(path, updated_content)
+        st.session_state.df_users = pd.DataFrame(columns=DATA_COLUMNS)
 
-    if success:
-        st.success("CSV-Datei wurde erfolgreich zu GitHub hochgeladen!")
-    else:
-        st.error("Fehler beim Hochladen der CSV-Datei zu GitHub")
 
-st.title("Daten in bestehende CSV-Datei hochladen")
+def main():
+    init_github() # Initialize the GithubContents object
+    init_credentials() # Loads the credentials from the Github data repository
 
-if st.button('Daten in CSV-Datei speichern'):
-    init_github()
-    csv_data = create_csv()
-    upload_to_github(csv_data)
+    if 'authentication' not in st.session_state:
+        st.session_state['authentication'] = False
+
+    if not st.session_state['authentication']:
+        options = st.sidebar.selectbox("Select a page", ["Login", "Register"])
+        if options == "Login":
+            login_page()
+        elif options == "Register":
+            register_page()
+
+    else:        
+
+
+        
+
+
+
+        #replace the code bellow with your own code or switch to another page
+        st.markdown("Yay")
+
+
+
+        
+
+
+
+
+
+
+
+        logout_button = st.button("Logout")
+        if logout_button:
+            st.session_state['authentication'] = False
+            st.rerun()
+
+
+
+if __name__ == "__main__":
+    main()
