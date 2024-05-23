@@ -24,8 +24,7 @@ def init_rez():
             st.session_state.df_liste = st.session_state.github.read_df(DATA_FILE)
         else:
             st.session_state.df_liste = pd.DataFrame(columns=DATA_COLUMNS)
-    df_liste = pd.Dataframe(columns=DATA_COLUMNS)
-    return df_liste
+   
 
 def save_to_csv_rez(dataframe):
     """Speichere das DataFrame in einer CSV-Datei."""
@@ -35,6 +34,9 @@ def save_to_csv_rez(dataframe):
 def daten_hochladen(new_data_df):
     init_github_rez() # Initialisiere das GithubContents-Objekt
     init_rez() # Lade die informationen aus dem GitHub-Datenrepository
+
+def show_dataframe():
+    st.dataframe(st.session_state.df_liste)
     
 
     
@@ -52,5 +54,5 @@ new_data_df = pd.DataFrame(new_data)
 
 daten_hochladen(new_data_df)
 dataframe = init_rez()
-st.markdown(dataframe)
+show_dataframe()
 
