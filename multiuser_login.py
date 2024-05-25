@@ -5,8 +5,11 @@ from github_contents import GithubContents
 import Zutaten_daten as zd
 import os
 
+def get_image_path(image_name):
+  image_dir = os.path.join(os.path.dirname(__file__), "../images")
+  return os.path.join(image_dir, image_name
 
-
+                      
 def bild_anzeigen(bild):
 
   try:
@@ -19,7 +22,7 @@ def bild_anzeigen(bild):
     st.error(f"Fehler beim Laden des Bildes: {e}")
 
 
-bild = pinkeblume.pinkeblume.jpg
+bild_pfad = get_image_path("pinkebluem.jpg")
 
-bild_anzeigen(bild)
+bild_anzeigen(bild_pfad)
 
