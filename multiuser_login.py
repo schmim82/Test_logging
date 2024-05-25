@@ -20,7 +20,7 @@ def display_images():
     """
     image_list = get_image_list()
     for image_path in image_list:
-        st.image(image_path, use_column_width=True)
+        st.image(image_path, width = 300)
 
 # Bild, das angezeigt werden soll
 bild = "pinkeblume.jpg"
