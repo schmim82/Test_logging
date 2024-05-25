@@ -40,3 +40,16 @@ st.session_state.df_users = pd.concat([st.session_state.df_users, new_data_df], 
 
 # DataFrame in CSV-Datei speichern
 save_to_csv(st.session_state.df_users)
+
+
+
+def show_dataframe():
+    """Zeige das DataFrame der CSV-Datei an."""
+    st.write("DataFrame aus der CSV-Datei:")
+    st.dataframe(st.session_state.df_users)
+
+show_dataframe()
+
+
+
+
