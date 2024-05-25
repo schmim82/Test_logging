@@ -46,7 +46,7 @@ def einkaufsliste_erstellen(einkaufsliste, Kochbuch):
             words_2 = key.split()
             if words_2[0]  not in leere_dic_2:
 
-                leere_dic_2[words_2[0] = ""
+                leere_dic_2[words_2[0]] = ""
 
 
 
