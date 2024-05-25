@@ -40,22 +40,12 @@ def einkaufsliste_erstellen(einkaufsliste, Kochbuch):
         words_3 = key.split()
         if leere_dic_2[key] != "":
             if len(words_3) == 1:
-                # Markdown-Text und Checkbox anzeigen
+                # Markdown-Text mit Checkbox anzeigen
                 checkbox_key = st.checkbox(f"{key} -- {leere_dic_2[key]} gramm")
-                if checkbox_key:
-                    # Markdown durchgestrichen anzeigen
-                    st.markdown(f"~~{key} -- {leere_dic_2[key]} gramm~~")
             else:
                 checkbox_key = st.checkbox(f"{key} -- {leere_dic_2[key]}")
-                if checkbox_key:
-                    # Markdown durchgestrichen anzeigen
-                    st.markdown(f"~~{key} -- {leere_dic_2[key]}~~")
         else:
             checkbox_key = st.checkbox(f"{key}")
-            if checkbox_key:
-                # Markdown durchgestrichen anzeigen
-                st.markdown(f"~~{key}~~")
-
 
 
 
