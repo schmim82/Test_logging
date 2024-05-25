@@ -52,7 +52,11 @@ def einkaufsliste_erstellen(einkaufsliste, Kochbuch):
 
                 
     for key in leere_dic_2:
-        st.markdown(f"{key} -- {leere_dic_2[key]}")
+        if leere_dic_2[key] != "":
+            st.markdown(f"{key} -- {leere_dic_2[key]}")
+
+        else:
+            st.markdown(f"{key}")
 
 
 liste = {"Goma Ae": 2,
