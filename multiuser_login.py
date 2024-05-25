@@ -6,7 +6,7 @@ import Zutaten_daten as zd
 import os
 
 def get_image_path(image_name):
-  image_dir = os.path.join(os.path.dirname(__file__), "../images")
+  image_dir = os.path.join(os.path.dirname(__file__), "test_2/bilder")
   return os.path.join(image_dir, image_name)
 
                       
