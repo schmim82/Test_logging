@@ -40,11 +40,17 @@ def einkaufsliste_erstellen(einkaufsliste, Kochbuch):
 
     for key in leere_dic:
         if isinstance(leere_dic[key], int) or isinstance(leere_dic[key], float):
-            leere_dic_2[key] = leere_dic[key] * anzahl
-
-        else:
             leere_dic_2[key] = leere_dic[key]
 
+        else:
+            words_2 = key.split()
+            if words_2[0]  not in leere_dic_2:
+
+                leere_dic_2[words_2[0] = ""
+
+
+
+                
     for key in leere_dic_2:
         st.markdown(f"{key} -- {leere_dic_2[key]}")
 
