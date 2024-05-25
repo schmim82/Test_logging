@@ -5,6 +5,7 @@ import Zutaten_daten as zd
 
 def einkaufsliste_erstellen(einkaufsliste, Kochbuch):
     leere_dic = {}
+    leere_dic_2 = {}
 
     
 
@@ -37,11 +38,15 @@ def einkaufsliste_erstellen(einkaufsliste, Kochbuch):
 
     for key in leere_dic:
         if isinstance(leere_dic[key], int) or isinstance(leere_dic[key], float):
-            st.markdown(f"{key} -- {leere_dic[key]}")
+            leere_dic_2[key] = leere_dic[key]
 
         else:
             words = key.split()
-            st.markdown(f"{words[0]}")
+            leere_dic_2[key] = ""
+
+    for key in leere_dic_2:
+        st.markdown(f"{key} -- {leere_dic_2[key]}")
+
 
 liste = {"Goma Ae": 2,
         "Knoblauchbrot": 2,
