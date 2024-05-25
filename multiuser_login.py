@@ -19,7 +19,7 @@ def bild_anzeigen(bild):
     st.error(f"Fehler beim Laden des Bildes: {e}")
 
 
-bild = "oubjebkzne.jpg"
+bild = "pinkeblume.jpg"
 
 bild_anzeigen(bild)
 
