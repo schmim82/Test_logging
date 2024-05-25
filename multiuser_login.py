@@ -4,27 +4,23 @@ from github_contents import GithubContents
 import Zutaten_daten as zd
 import os
 
-def get_image_path(image_name):
-    # Erstellen des Pfads zum Bilderverzeichnis
-    image_dir = os.path.join(os.path.dirname(__file__), "test_2", "bilder")
-    return os.path.join(image_dir, image_name)
 
-def bild_anzeigen(bild):
-    try:
-        st.image(bild, use_column_width=True)
-    except FileNotFoundError:
-        st.error(f"Die Bilddatei '{bild}' wurde nicht gefunden.")
-    except Exception as e:
-        st.error(f"Fehler beim Laden des Bildes: {e}")
+def get_image_list():
+    """
+    Diese Funktion gibt eine Liste von Bilddateien aus dem lokalen 'images'-Ordner zurück.
+    """
+    image_dir = os.path.join(os.path.dirname(__file__), 'images')
+    return [os.path.join(image_dir, img) for img in os.listdir(image_dir) if img.endswith(('png', 'jpg', 'jpeg', 'gif'))]
 
-# Verwende get_image_path, um den Pfad zum Bild zu erhalten
-bild_pfad = get_image_path("pinkebluem.jpg")
+def display_images():
+    """
+    Diese Funktion zeigt die Bilder in Streamlit an.
+    """
+    image_list = get_image_list()
+    for image_path in image_list:
+        st.image(image_path, caption=os.path.basename(image_path), use_column_width=True)
 
-# Debug-Ausgabe des generierten Pfads
-st.write(f"Generated image path: {bild_pfad}")
-
-# Überprüfen, ob die Datei existiert
-if os.path.exists(bild_pfad):
-    bild_anzeigen(bild_pfad)
-else:
-    st.error(f"Die Bilddatei '{bild_pfad}' wurde nicht gefunden.")
+# Hauptfunktion zur Ausführung des Skripts
+if __name__ == '__main__':
+    st.title("Bilder aus lokalem Ordner anzeigen")
+    display_images()
