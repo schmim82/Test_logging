@@ -1,91 +1,48 @@
 import streamlit as st
 import pandas as pd
 from github_contents import GithubContents
+import Zutaten_daten as zd
 
-st.set_page_config(page_title="test")
-
-# Set constants
-DATA_FILE = "test.csv"
-DATA_COLUMNS = ['name', 'rezept', 'anzahl']
-
-def init_github():
-    """Initialisiere das GithubContents-Objekt."""
-    if 'github' not in st.session_state:
-        st.session_state.github = GithubContents(
-            st.secrets["github"]["owner"],
-            st.secrets["github"]["repo"],
-            st.secrets["github"]["token"])
-        print("GitHub initialisiert")
-
-def init_credentials():
-    """Initialisiere oder lade das DataFrame."""
-    if 'df_users' not in st.session_state:
-        if st.session_state.github.file_exists(DATA_FILE):
-            st.session_state.df_users = st.session_state.github.read_df(DATA_FILE)
-        else:
-            st.session_state.df_users = pd.DataFrame(columns=DATA_COLUMNS)
-
-def save_to_csv(dataframe):
-    """Speichere das DataFrame in einer CSV-Datei."""
-    st.session_state.github.write_df(DATA_FILE, dataframe, "updated CSV")
-
-init_github() # Initialisiere das GithubContents-Objekt
-init_credentials() # Lade die Anmeldeinformationen aus dem GitHub-Datenrepository
-save_to_csv(st.session_state.df_users) # Speichere das DataFrame in der CSV-Datei
-new_data = {'name': ['Neue Zutat'], 'rezept': ['Neues Rezept'], 'anzahl': [10]}
-new_data_df = pd.DataFrame(new_data)
-
-# DataFrame aktualisieren
-st.session_state.df_users = pd.concat([st.session_state.df_users, new_data_df], ignore_index=True)
-
-# DataFrame in CSV-Datei speichern
-save_to_csv(st.session_state.df_users)
-
-
-
-def show_dataframe():
-    """Zeige das DataFrame der CSV-Datei an."""
-    st.write("DataFrame aus der CSV-Datei:")
-    st.dataframe(st.session_state.df_users)
-
-show_dataframe()
-
-
-
-df = fa.show_dataframe()
-
-    st.dataframe(df)
-
-
-    st.sidebar.subheader("Die Rezepte in deiner Einkaufsliste sind:")
-
-    df_persönlich = df[df["name"] == username]
-
-    pers_L = df_persönlich["rezept"].tolist()
-    pers_L_anz = df_persönlich["anzahl"].tolist()
-
-     
+def einkaufsliste_erstellen(einkaufsliste, Kochbuch):
+    leere_dic = {}
 
     
-    for item1, item2 in zip(pers_L, pers_L_anz):
-        st.sidebar.markdown(f"{item1} für {item2} Personen")
 
+    for key in einkaufsliste:
+        dictionary = Kochbuch[key]
 
+        anzahl = einkaufsliste[key]
 
+        for key in dictionary:
 
+            words = key.split()
+        
 
+            if words[0] != "Zubereitung":
 
-    einkaufsdic = {}
-    variable = 0
-    
-    for item in pers_L:
-        einkaufsdic[item] = pers_L_anz[variable]
+                if key not in leere_dic:
 
-        variable += 1 
+                    if isinstance(dictionary[key], int) or isinstance(dictionary[key], float):
+                        leere_dic[key] = dictionary[key] * anzahl
 
-    fa.einkaufsliste_erstellen(einkaufsdic, zd.Kochbuch)
+                    else:
+                        leere_dic[key] = dictionary[key]
 
+                else:
 
+                    if isinstance(dictionary[key], int) or isinstance(dictionary[key], float):
+                        leere_dic[key] = leere_dic[key] + (dictionary[key] * anzahl)
+
+    for key in leere_dic:
+        st.markdown(f"{key} -- {leere_dic[key]}")
+
+liste = {"Goma Ae: 2,
+        "Knoblauchbrot": 2,
+        "Parmigiana": 2,
+        "Gefüllte Tomaten mit Feta": 2,
+        "Kichererbsenbällchen mit Aprikosen": 2}
+
+einkaufsliste_erstellen(liste, zd.Kochbuch)
 
 
 
