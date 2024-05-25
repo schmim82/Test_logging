@@ -34,6 +34,4 @@ if bild in [os.path.basename(img) for img in bilder_liste]:
 else:
     st.error(f"Das Bild '{bild}' wurde nicht in der Bildliste gefunden.")
 
-# Anzeige aller Bilder aus dem Ordner (optional)
-st.title("Alle Bilder aus lokalem Ordner anzeigen")
-display_images()
+
