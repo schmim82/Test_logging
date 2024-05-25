@@ -6,7 +6,7 @@ st.set_page_config(page_title="test")
 
 # Set constants
 DATA_FILE = "test.csv"
-DATA_COLUMNS = ['Name', 'Rezept', 'Anzahl']
+DATA_COLUMNS = ['name', 'rezept', 'anzahl']
 
 def init_github():
     """Initialisiere das GithubContents-Objekt."""
