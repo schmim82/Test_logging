@@ -21,6 +21,5 @@ def display_images():
         st.image(image_path, caption=os.path.basename(image_path), use_column_width=True)
 
 # Hauptfunktion zur Ausführung des Skripts
-if __name__ == '__main__':
-    st.title("Bilder aus lokalem Ordner anzeigen")
-    display_images()
+st.title("Bilder aus lokalem Ordner anzeigen")
+display_images()
