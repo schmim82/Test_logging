@@ -41,7 +41,7 @@ def einkaufsliste_erstellen(einkaufsliste, Kochbuch):
 
         else:
             words = key.split()
-            st.markdown(f"{words[0]})
+            st.markdown(f"{words[0]}")
 
 liste = {"Goma Ae": 2,
         "Knoblauchbrot": 2,
