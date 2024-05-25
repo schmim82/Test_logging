@@ -7,6 +7,8 @@ import os
 
 
 
+
+
 def get_image_list():
     """
     Diese Funktion gibt eine Liste von Bilddateien aus dem lokalen 'images'-Ordner zurück.
@@ -20,7 +22,7 @@ def display_images():
     """
     image_list = get_image_list()
     for image_path in image_list:
-        st.image(image_path, use_column_width=True)
+        st.image(image_path, caption=os.path.basename(image_path), use_column_width=True)
 
 # Bild, das angezeigt werden soll
 bild = "pinkeblume.jpg"
@@ -30,8 +32,13 @@ bilder_liste = get_image_list()
 # Überprüfen, ob das Bild in der Liste enthalten ist, und dann anzeigen
 if bild in [os.path.basename(img) for img in bilder_liste]:
     st.title("Bild aus lokalem Ordner anzeigen")
-    st.image(os.path.join('images', bild), use_column_width=True)
+    st.image(os.path.join('images', bild), caption=bild, use_column_width=True)
 else:
     st.error(f"Das Bild '{bild}' wurde nicht in der Bildliste gefunden.")
+
+# Anzeige aller Bilder aus dem Ordner (optional)
+st.title("Alle Bilder aus lokalem Ordner anzeigen")
+display_images()
+
 
 
