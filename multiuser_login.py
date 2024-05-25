@@ -42,6 +42,7 @@ def einkaufsliste_erstellen(einkaufsliste, Kochbuch):
 
         else:
             words = key.split()
+            key = words[0]
             leere_dic_2[key] = ""
 
     for key in leere_dic_2:
