@@ -15,14 +15,26 @@ def get_image_list():
     return [os.path.join(image_dir, img) for img in os.listdir(image_dir) if img.endswith(('png', 'jpg', 'jpeg', 'gif'))]
 
 
+
+def bild_anzeigen(bild, bilder_liste):
 # Bild, das angezeigt werden soll
-bild = "pinkeblume.jpg"
+    
 # Liste der Bilder abrufen
-bilder_liste = get_image_list()
+    
 
 # Überprüfen, ob das Bild in der Liste enthalten ist, und dann anzeigen
-if bild in [os.path.basename(img) for img in bilder_liste]:
-    st.title("Bild aus lokalem Ordner anzeigen")
-    st.image(os.path.join('images', bild), use_column_width=True)
-else:
-    st.error(f"Das Bild '{bild}' wurde nicht in der Bildliste gefunden.")
+    if bild in [os.path.basename(img) for img in bilder_liste]:
+        st.title("Bild aus lokalem Ordner anzeigen")
+        st.image(os.path.join('images', bild), use_column_width=True)
+    else:
+        st.error(f"Das Bild '{bild}' wurde nicht in der Bildliste gefunden.")
+
+
+
+a = "pinkeblume.jpg"
+b = get_image_list()
+
+bild_anzeigen(a,b)
+
+
+
