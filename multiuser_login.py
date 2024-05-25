@@ -38,7 +38,7 @@ def einkaufsliste_erstellen(einkaufsliste, Kochbuch):
 
 
 
-    for key in leere_dic_2:
+    for key in leere_dic:
         st.markdown(f"{key} -- {leere_dic[key]}")
 
 
