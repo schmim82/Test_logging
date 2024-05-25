@@ -36,7 +36,7 @@ def einkaufsliste_erstellen(einkaufsliste, Kochbuch):
     for key in leere_dic:
         st.markdown(f"{key} -- {leere_dic[key]}")
 
-liste = {"Goma Ae: 2,
+liste = {"Goma Ae": 2,
         "Knoblauchbrot": 2,
         "Parmigiana": 2,
         "Gefüllte Tomaten mit Feta": 2,
