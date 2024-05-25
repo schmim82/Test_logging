@@ -36,7 +36,7 @@ def einkaufsliste_erstellen(einkaufsliste, Kochbuch):
                         leere_dic[key] = leere_dic[key] + (dictionary[key] * anzahl)
 
     for key in leere_dic:
-        if isinstance(dictionary[key], int) or isinstance(dictionary[key], float):
+        if isinstance(leere_dic[key], int) or isinstance(leere_dic[key], float):
             st.markdown(f"{key} -- {leere_dic[key]}")
 
         else:
