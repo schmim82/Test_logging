@@ -4,6 +4,7 @@ import pandas as pd
 from github_contents import GithubContents
 import Zutaten_daten as zd
 from test_2 import bilder
+from bilder import pinkeblume
 
 
 
@@ -19,7 +20,7 @@ def bild_anzeigen(bild):
     st.error(f"Fehler beim Laden des Bildes: {e}")
 
 
-bild = "pinkeblume.jpg"
+bild = pinkeblume.pinkeblume.jpg
 
 bild_anzeigen(bild)
 
