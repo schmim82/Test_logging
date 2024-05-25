@@ -32,7 +32,7 @@ def save_to_csv(dataframe):
 init_github() # Initialisiere das GithubContents-Objekt
 init_credentials() # Lade die Anmeldeinformationen aus dem GitHub-Datenrepository
 save_to_csv(st.session_state.df_users) # Speichere das DataFrame in der CSV-Datei
-new_data = {'Name': ['Neue Zutat'], 'Rezept': ['Neues Rezept'], 'Anzahl': [10]}
+new_data = {'name': ['Neue Zutat'], 'rezept': ['Neues Rezept'], 'anzahl': [10]}
 new_data_df = pd.DataFrame(new_data)
 
 # DataFrame aktualisieren
