@@ -23,6 +23,6 @@ bilder_liste = get_image_list()
 # Überprüfen, ob das Bild in der Liste enthalten ist, und dann anzeigen
 if bild in [os.path.basename(img) for img in bilder_liste]:
     st.title("Bild aus lokalem Ordner anzeigen")
-    st.image(os.path.join('images', bild), width = 300)
+    st.image(os.path.join('images', bild), use_column_width=True)
 else:
     st.error(f"Das Bild '{bild}' wurde nicht in der Bildliste gefunden.")
