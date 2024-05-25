@@ -7,7 +7,7 @@ import os
 
 def get_image_path(image_name):
   image_dir = os.path.join(os.path.dirname(__file__), "../images")
-  return os.path.join(image_dir, image_name
+  return os.path.join(image_dir, image_name)
 
                       
 def bild_anzeigen(bild):
