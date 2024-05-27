@@ -7,34 +7,67 @@ import os
 
 
 
-def get_image_list():
-    """
-    Diese Funktion gibt eine Liste von Bilddateien aus dem lokalen 'images'-Ordner zurück.
-    """
-    image_dir = os.path.join(os.path.dirname(__file__), 'images')
-    return [os.path.join(image_dir, img) for img in os.listdir(image_dir) if img.endswith(('png', 'jpg', 'jpeg', 'gif'))]
+DATA_FILE_1 = "Favoriten.csv"
+DATA_COLUMNS_1 = ['name', 'rezept']
 
 
 
-def bild_anzeigen(bild, bilder_liste):
-# Bild, das angezeigt werden soll
+def init_rez_f():
+    """Initialisiere oder lade das DataFrame."""
+    if 'df_favoriten' not in st.session_state:
+        if st.session_state.github.file_exists(DATA_FILE_1):
+            st.session_state.df_favoriten = st.session_state.github.read_df(DATA_FILE_1)
+        else:
+            st.session_state.df_favoriten = pd.DataFrame(columns=DATA_COLUMNS_1)
+
+def save_to_csv_rez_f(dataframe):
+
+    st.session_state.github.write_df(DATA_FILE_1, dataframe, "updated CSV")
+
+def daten_hochladen_f(new_data_df):
+    init_github_rez() # Initialisiere das GithubContents-Objekt
+    init_rez_f() # Lade die informationen aus dem GitHub-Datenrepository
+
+# DataFrame aktualisieren
+    st.session_state.df_favoriten = pd.concat([st.session_state.df_favoriten, new_data_df], ignore_index=True)
+
+# DataFrame in CSV-Datei speichern
+    save_to_csv_rez_f(st.session_state.df_favoriten)
+
+
+def show_dataframe_f():
+    dataframe = st.session_state.df_favoriten
     
-# Liste der Bilder abrufen
+    return dataframe
+
+
+
+
+
+
+
+
+
+def rezepte_hinzufügen_f(name, rezept):
+
     
+    df = show_dataframe_f()
+    df_kriterien = df[df["name"] == name]
+   
 
-# Überprüfen, ob das Bild in der Liste enthalten ist, und dann anzeigen
-    if bild in [os.path.basename(img) for img in bilder_liste]:
+    if rezept in df_kriterien["rezept"].values:
+        st.markdown("schon vorhanden")
 
-        st.image(os.path.join('images', bild), use_column_width=True)
     else:
-        st.error(f"Das Bild '{bild}' wurde nicht in der Bildliste gefunden.")
+        new_data = {'name': [name], 'rezept': [rezept]}
+        new_data_df = pd.DataFrame(new_data)
+
+        daten_hochladen_f(new_data_df)
 
 
+name = "test_3"
+rezept = "test_3"
 
-a = "pinkeblume.jpg"
-b = get_image_list()
-
-bild_anzeigen(a,b)
-
+rezepte_hinzufügen_f(name, rezept)
 
 
