@@ -11,6 +11,15 @@ DATA_FILE_1 = "Favoriten.csv"
 DATA_COLUMNS_1 = ['name', 'rezept']
 
 
+def init_github_rez():
+    """Initialisiere das GithubContents-Objekt."""
+    if 'github' not in st.session_state:
+        st.session_state.github = GithubContents(
+            st.secrets["github"]["owner"],
+            st.secrets["github"]["repo"],
+            st.secrets["github"]["token"])
+        print("GitHub initialisiert")
+
 
 def init_rez_f():
     """Initialisiere oder lade das DataFrame."""
