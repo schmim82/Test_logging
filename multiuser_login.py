@@ -76,7 +76,7 @@ def rezepte_hinzufügen_f(name, rezept):
 
 name = "test_3"
 rezept = "test_3"
-
+init_github_rez()
 init_rez_f()
 
 rezepte_hinzufügen_f(name, rezept)
